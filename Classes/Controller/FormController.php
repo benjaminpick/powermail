@@ -215,6 +215,8 @@ class FormController extends AbstractController
             $sent = $this->sendMailService->sendMail($email, $mail, $this->settings, 'receiver');
 
             if (!$sent) {
+                GeneralUtility::sysLog('The email to the receiver could not be sent. (From: ' . $mail['senderEmail'] . ', To: ' . $mail['receiverEmail'] .', Subject: "' . $mail['subject'] . '")', 'powermail', GeneralUtility::SYSLOG_SEVERITY_WARNING);
+
                 $this->addFlashMessage(
                     LocalizationUtility::translate('error_mail_not_created'),
                     '',
@@ -250,7 +252,10 @@ class FormController extends AbstractController
             'rteBody' => $this->settings['sender']['body'],
             'format' => $this->settings['sender']['mailformat']
         ];
-        $this->sendMailService->sendMail($email, $mail, $this->settings, 'sender');
+        $sent = $this->sendMailService->sendMail($email, $mail, $this->settings, 'sender');
+        if (!$sent) {
+    	    GeneralUtility::sysLog('The email to the sender could not be sent. (From: ' . $email['senderEmail'] . ', To: ' . $email['receiverEmail'] .', Subject: "' . $email['subject'] . '")', 'powermail', GeneralUtility::SYSLOG_SEVERITY_WARNING);        
+        }
     }
 
     /**
@@ -283,7 +288,10 @@ class FormController extends AbstractController
                 'mail' => $mail
             ]
         ];
-        $this->sendMailService->sendMail($email, $mail, $this->settings, 'optin');
+        $sent = $this->sendMailService->sendMail($email, $mail, $this->settings, 'optin');
+        if (!$sent) {
+            GeneralUtility::sysLog('The confirmation email could not be sent. (From: ' . $mail['senderEmail'] . ', To: ' . $mail['receiverEmail'] .', Subject: "' . $mail['subject'] . '")', 'powermail', GeneralUtility::SYSLOG_SEVERITY_WARNING);        
+       	}
     }
 
     /**
