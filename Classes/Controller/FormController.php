@@ -215,7 +215,7 @@ class FormController extends AbstractController
             $sent = $this->sendMailService->sendMail($email, $mail, $this->settings, 'receiver');
 
             if (!$sent) {
-                GeneralUtility::sysLog('The email to the receiver could not be sent. (From: ' . $mail['senderEmail'] . ', To: ' . $mail['receiverEmail'] .', Subject: "' . $mail['subject'] . '")', 'powermail', GeneralUtility::SYSLOG_SEVERITY_WARNING);
+                GeneralUtility::sysLog('The email to the receiver could not be sent. (From: ' . $email['senderEmail'] . ', To: ' . $email['receiverEmail'] .', Subject: "' . $email['subject'] . '")', 'powermail', GeneralUtility::SYSLOG_SEVERITY_WARNING);
 
                 $this->addFlashMessage(
                     LocalizationUtility::translate('error_mail_not_created'),
@@ -290,7 +290,7 @@ class FormController extends AbstractController
         ];
         $sent = $this->sendMailService->sendMail($email, $mail, $this->settings, 'optin');
         if (!$sent) {
-            GeneralUtility::sysLog('The confirmation email could not be sent. (From: ' . $mail['senderEmail'] . ', To: ' . $mail['receiverEmail'] .', Subject: "' . $mail['subject'] . '")', 'powermail', GeneralUtility::SYSLOG_SEVERITY_WARNING);        
+            GeneralUtility::sysLog('The confirmation email could not be sent. (From: ' . $email['senderEmail'] . ', To: ' . $email['receiverEmail'] .', Subject: "' . $email['subject'] . '")', 'powermail', GeneralUtility::SYSLOG_SEVERITY_WARNING);        
        	}
     }
 
